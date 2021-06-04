@@ -1,0 +1,16 @@
+.form {
+    width: 50vw;
+    min-width: 400px;
+
+    background-color: #00ccd6;
+    background-image: linear-gradient(
+        90deg,
+        transparent 50%,
+        rgba(255, 255, 255, 0.5) 50%
+    );
+    background-size: 50px 50px;
+}
+
+.formContainer {
+    width: 50vw;
+}

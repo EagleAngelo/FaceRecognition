@@ -1,0 +1,15 @@
+#inputImg {
+    width: 40vh;
+    height: auto;
+}
+
+.box {
+    position: absolute;
+    box-shadow: 0 0 0 3px inset rgb(255, 255, 255);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    -ms-flex-pack: center;
+    cursor: pointer;
+}
