@@ -7,6 +7,45 @@ const classStyles = {
 };
 
 export class SignIn extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            signInEmail: "",
+            signInPass: "",
+        };
+    }
+
+    onEmailChange = (event) => {
+        this.setState({ signInEmail: event.target.value });
+    };
+
+    onPassChange = (event) => {
+        this.setState({ signInPass: event.target.value });
+    };
+
+    onSubmit = () => {
+        fetch("https://intense-bayou-04107.herokuapp.com/signin", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: this.state.signInEmail,
+                password: this.state.signInPass,
+            }),
+        })
+            .then((response) => response.json())
+            .then((user) => {
+                if (user.id) {
+                    this.props.onRouteChange("home");
+                    this.props.loadUser(user);
+
+                    //console.log("sign in submit", user);
+                }
+            });
+    };
+
     render(props) {
         return (
             <div className={classStyles.div1}>
@@ -32,6 +71,7 @@ export class SignIn extends Component {
                                         type="email"
                                         name="email-address"
                                         id="email-address"
+                                        onChange={this.onEmailChange}
                                     ></input>
                                 </div>
                                 <div className="mv3">
@@ -46,6 +86,7 @@ export class SignIn extends Component {
                                         type="password"
                                         name="password"
                                         id="password"
+                                        onChange={this.onPassChange}
                                     ></input>
                                 </div>
                             </fieldset>
@@ -54,9 +95,7 @@ export class SignIn extends Component {
                                     className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                                     type="submit"
                                     value="Sign in"
-                                    onClick={() =>
-                                        this.props.onRouteChange("home")
-                                    }
+                                    onClick={this.onSubmit}
                                 ></input>
                             </div>
                             <div className="lh-copy mt3">

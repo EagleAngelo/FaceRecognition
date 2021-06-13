@@ -7,6 +7,49 @@ const classStyles = {
 };
 
 export class Register extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            name: "",
+            email: "",
+            pass: "",
+        };
+    }
+
+    onNameChange = (event) => {
+        this.setState({ name: event.target.value });
+    };
+
+    onEmailChange = (event) => {
+        this.setState({ email: event.target.value });
+    };
+
+    onPassChange = (event) => {
+        this.setState({ pass: event.target.value });
+    };
+
+    onSubmit = () => {
+        fetch("https://intense-bayou-04107.herokuapp.com/register", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: this.state.name,
+                email: this.state.email,
+                password: this.state.pass,
+            }),
+        })
+            .then((response) => response.json())
+            .then((user) => {
+                if (user.id) {
+                    this.props.registerUser(user);
+                    this.props.onRouteChange("signin");
+                }
+            });
+    };
+
     render(props) {
         return (
             <div className={classStyles.div1}>
@@ -33,6 +76,7 @@ export class Register extends Component {
                                         type="text"
                                         name="name"
                                         id="name"
+                                        onChange={this.onNameChange}
                                     ></input>
                                 </div>
                                 <div className="mt3">
@@ -47,6 +91,7 @@ export class Register extends Component {
                                         type="email"
                                         name="email-address"
                                         id="email-address"
+                                        onChange={this.onEmailChange}
                                     ></input>
                                 </div>
                                 <div className="mv3">
@@ -61,6 +106,7 @@ export class Register extends Component {
                                         type="password"
                                         name="password"
                                         id="password"
+                                        onChange={this.onPassChange}
                                     ></input>
                                 </div>
                             </fieldset>
@@ -69,9 +115,7 @@ export class Register extends Component {
                                     className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                                     type="submit"
                                     value="Submit"
-                                    onClick={() =>
-                                        this.props.onRouteChange("signin")
-                                    }
+                                    onClick={this.onSubmit}
                                 ></input>
                             </div>
                         </div>
